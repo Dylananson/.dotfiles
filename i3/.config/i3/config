@@ -259,7 +259,17 @@ bindsym $mod+Shift+v exec /usr/bin/code
 bindsym $mod+b exec /usr/bin/blueman-manager
 bindsym $mod+Shift+s exec /snap/bin/spotify
 bindsym $mod+Shift+f exec i3-sensible-terminal -e "ranger"
+bindsym $mod+Shift+d exec i3-sensible-terminal -e "autorandr docked"
+bindsym $mod+Shift+m exec i3-sensible-terminal -e "autorandr mobile"
 
 exec_always compton
 
 bindsym $mod+x exec i3loc
+
+# open some windows floating
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [title=".*Emulator.*"] floating enable
