@@ -119,6 +119,10 @@ fi
 PATH="$PATH:/home/$USER/.openmpi/bin"
 LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/$USER/.openmpi/lib/"
 PATH="$PATH:/home/dylan/.local/bin"
+export JAVA_HOME="/home/dylan/software/jdk-17.0.2+8/"
+export JDK_HOME="/home/dylan/software/jdk-17.0.2+8/"
+export PATH=$JAVA_HOME/bin:$PATH
+export PATH=$JDK/bin:$PATH
 
 alias editor=nvim
 alias vim="nvim"
@@ -139,3 +143,11 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+# dotbare config
+# e.g. I have all my dotfiles stored in folder $HOME/.myworld and symlinks all of them to appropriate location.
+# export DOTBARE_DIR="$HOME/.myworld/.git"
+# export DOTBARE_TREE="$HOME/.myworld"
+export DOTBARE_DIR=$HOME/.dotfiles/.git
+export DOTBARE_TREE=$HOME/.dotfiles
+source ~/.dotbare/dotbare.plugin.bash

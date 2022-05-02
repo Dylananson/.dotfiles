@@ -26,11 +26,16 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'vimwiki/vimwiki'
 call plug#end()
 
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown':'markdown'}
+let g:instant_markdown_autostart = 0
+map <leader>md :InstantMarkdownPreview<CR>
 lua << EOF
 require 'lspconfig'
 require'lspconfig'.pyright.setup{}
+require'lspconfig'.tailwindcss.setup{}
 
 local cmp = require'cmp'
 
