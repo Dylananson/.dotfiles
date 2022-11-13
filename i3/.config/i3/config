@@ -38,6 +38,10 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
+# Screen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen birghtness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # increase screen birghtness
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 #
 floating_modifier $mod
@@ -107,16 +111,16 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:  "
-set $ws2 "2:"
-set $ws3 "3: Code"
-set $ws4 "4:  "
-set $ws5 "5: Documents"
-set $ws6 "6: Tasks"
-set $ws7 "7: Chrome Play"
-set $ws8 "8: Communication"
-set $ws9 "9: Utils"
-set $ws10 "10: "
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -249,7 +253,7 @@ for_window [class="Blueman-manager"] move to workspace $ws9
 for_window [class="Pavucontrol"] move to workspace $ws9
 for_window [class="Spotify"] move to workspace $ws10
 
-assign [class="Google-chrome"] $ws1
+#assign [class="Google-chrome"] $ws1
 #assign [class="Gnome-terminal"] $ws2
 #assign [class="Code"] $ws3
 assign [class="Spotify"] $w10
@@ -262,7 +266,7 @@ bindsym $mod+b exec /usr/bin/blueman-manager
 bindsym $mod+Shift+s exec /snap/bin/spotify
 bindsym $mod+Shift+i exec idea
 bindsym $mod+Shift+f exec i3-sensible-terminal -e "ranger"
-bindsym $mod+Shift+d exec i3-sensible-terminal -e "autorandr docked"
+bindsym $mod+Shift+d exec i3-sensible-terminal -e "xrandr --output DP1-1 --mode 1920x1080 --rate 144 --output eDP1 --off"
 bindsym $mod+Shift+m exec i3-sensible-terminal -e "autorandr mobile"
 bindsym $mod+Shift+y exec i3-sensible-terminal -e "nvim ~/.config/i3/config"
 bindsym $mod+Shift+n exec i3-sensible-terminal -e "pacmd set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo"
