@@ -1,9 +1,21 @@
+VIM="nvim"
 alias vim="nvim"
 alias editor="nvim"
 alias vi="nvim"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 alias python='/usr/bin/python3'
 
+addToPath() {
+    if [[ "$PATH" != *"$1"* ]]; then
+        export PATH=$PATH:$1
+    fi
+}
+
+addToPathFront() {
+    if [[ "$PATH" != *"$1"* ]]; then
+        export PATH=$1:$PATH
+    fi
+}
 
 
 # dotbare config
@@ -14,9 +26,16 @@ alias python='/usr/bin/python3'
 #export DOTBARE_TREE=$HOME/.dotfiles
 export EDITOR="nvim"
 #source ~/.dotbare/dotbare.plugin.zsh
-path+=('~/.local/bin/')
 
-#fzf
+#exports
 export FZF_DEFAULT_COMMAND='find .'
+export DOTFILES=$HOME/.dotfiles
+export GIT_EDITOR=$VIM
 
 #bind -X '"\C-f": tmux-sessionizer\n'
+#
+bindkey -s ^f "tmux-sessionizer\n"
+
+addToPathFront $HOME/.local/scripts
+addToPathFront $HOME/.local/bin
+
