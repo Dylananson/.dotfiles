@@ -22,6 +22,7 @@ nnoremap ("<leader>fh",function()
     require('telescope.builtin').help_tags()
 end)
 
-nnoremap ("<leader>vrc", function()
-    require("danson.telescope").search_dotfiles({hidden = true})
+
+nnoremap("<leader>vrc", function()
+    require('danson.telescope').search_dotfiles({ hidden = true })
 end)
