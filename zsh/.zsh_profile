@@ -1,0 +1,22 @@
+alias vim="nvim"
+alias editor="nvim"
+alias vi="nvim"
+alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+alias python='/usr/bin/python3'
+
+
+
+# dotbare config
+# e.g. I have all my dotfiles stored in folder $HOME/.myworld and symlinks all of them to appropriate location.
+# export DOTBARE_DIR="$HOME/.myworld/.git"
+# export DOTBARE_TREE="$HOME/.myworld"
+#export DOTBARE_DIR=$HOME/.dotfiles/.git
+#export DOTBARE_TREE=$HOME/.dotfiles
+export EDITOR="nvim"
+#source ~/.dotbare/dotbare.plugin.zsh
+path+=('~/.local/bin/')
+
+#fzf
+export FZF_DEFAULT_COMMAND='find .'
+
+#bind -X '"\C-f": tmux-sessionizer\n'
