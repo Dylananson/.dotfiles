@@ -23,6 +23,6 @@ nnoremap ("<leader>fh",function()
 end)
 
 
-nnoremap("<leader>vrc", function()
+nnoremap("<leader>fd", function()
     require('danson.telescope').search_dotfiles({ hidden = true })
 end)
