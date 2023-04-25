@@ -3,7 +3,6 @@ alias vim="nvim"
 alias editor="nvim"
 alias vi="nvim"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
-alias python='/usr/bin/python3'
 
 addToPath() {
     if [[ "$PATH" != *"$1"* ]]; then

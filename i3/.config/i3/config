@@ -237,10 +237,10 @@ workspace $ws10 output eDP-1-1
 
 #open on startup
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
-exec --no-startup-id i3-msg $ws1; exec /usr/bin/google-chrome --password-store=gnome
-exec --no-startup-id i3-msg $ws2; exec i3-sensible-terminal
-exec --no-startup-id i3-msg $ws3; exec /usr/bin/code
-exec --no-startup-id i3-msg $ws10; exec /usr/bin/spotify
+#exec --no-startup-id i3-msg $ws1; exec /usr/bin/google-chrome --password-store=gnome
+#exec --no-startup-id i3-msg $ws2; exec i3-sensible-terminal
+#exec --no-startup-id i3-msg $ws3; exec /usr/bin/code
+#exec --no-startup-id i3-msg $ws10; exec /usr/bin/spotify
 exec --no-startup-id i3-msg exec i3-sensible-terminal -e "pacmd set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo"
 
 

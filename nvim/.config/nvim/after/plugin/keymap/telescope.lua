@@ -5,7 +5,6 @@ nnoremap("<C-p>", function()
     require('telescope.builtin').git_files()
 end)
 
-
 nnoremap ("<leader>ff",function()
     require('telescope.builtin').find_files()
 end)
