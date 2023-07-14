@@ -266,10 +266,15 @@ bindsym $mod+b exec /usr/bin/blueman-manager
 bindsym $mod+Shift+s exec /snap/bin/spotify
 bindsym $mod+Shift+i exec idea
 bindsym $mod+Shift+f exec i3-sensible-terminal -e "ranger"
-bindsym $mod+Shift+d exec i3-sensible-terminal -e "xrandr --output DP1-1 --mode 1920x1080 --rate 144 --output eDP1 --off"
+bindsym $mod+Shift+d exec i3-sensible-terminal -e "xrandr --output DP1-2 --mode 1920x1080 --rate 144 --output DP1-1 --mode 1920x1080 --rate 60 --output eDP1 --off"
 bindsym $mod+Shift+m exec i3-sensible-terminal -e "autorandr mobile"
 bindsym $mod+Shift+y exec i3-sensible-terminal -e "nvim ~/.config/i3/config"
 bindsym $mod+Shift+n exec i3-sensible-terminal -e "pacmd set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo"
+
+
+#multiple screens 
+bindsym $mod+p move workspace to output right
+
 
 exec_always compton
 

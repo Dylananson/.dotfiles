@@ -109,6 +109,11 @@ _G.packer_plugins = {
     path = "/home/dylan/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  ["copilot.vim"] = {
+    loaded = true,
+    path = "/home/dylan/.local/share/nvim/site/pack/packer/start/copilot.vim",
+    url = "https://github.com/github/copilot.vim"
+  },
   ["eslint.nvim"] = {
     loaded = true,
     path = "/home/dylan/.local/share/nvim/site/pack/packer/start/eslint.nvim",
@@ -153,11 +158,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dylan/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
-  },
-  neoformat = {
-    loaded = true,
-    path = "/home/dylan/.local/share/nvim/site/pack/packer/start/neoformat",
-    url = "https://github.com/sbdchd/neoformat"
   },
   ["null-ls.nvim"] = {
     loaded = true,
@@ -215,6 +215,11 @@ _G.packer_plugins = {
     path = "/home/dylan/.local/share/nvim/site/pack/packer/start/popup.nvim",
     url = "https://github.com/nvim-lua/popup.nvim"
   },
+  ["refactoring.nvim"] = {
+    loaded = true,
+    path = "/home/dylan/.local/share/nvim/site/pack/packer/start/refactoring.nvim",
+    url = "https://github.com/ThePrimeagen/refactoring.nvim"
+  },
   ["symbols-outline.nvim"] = {
     loaded = true,
     path = "/home/dylan/.local/share/nvim/site/pack/packer/start/symbols-outline.nvim",
@@ -244,6 +249,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/dylan/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
+  },
+  ["vim-gitgutter"] = {
+    loaded = true,
+    path = "/home/dylan/.local/share/nvim/site/pack/packer/start/vim-gitgutter",
+    url = "https://github.com/airblade/vim-gitgutter"
   },
   ["vim-prisma"] = {
     loaded = true,

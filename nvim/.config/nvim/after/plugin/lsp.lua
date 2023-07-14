@@ -41,12 +41,12 @@ require("lspconfig").eslint.setup({
 	end,
 })
 
-require("lspconfig").tsserver.setup({
-	capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-	on_attach = function(client)
-		client.server_capabilities.document_formatting = false
-	end,
-})
+-- require("lspconfig").tsserver.setup({
+-- 	capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+-- 	on_attach = function(client)
+-- 		client.server_capabilities.document_formatting = false
+-- 	end,
+-- })
 
 local lsp_formatting = function(bufnr)
 	vim.lsp.buf.format({
@@ -97,16 +97,16 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 	vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 
-    if client.supports_method("textDocument/formatting") then
-        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-        vim.api.nvim_create_autocmd("LspAttach", {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-                lsp_formatting(bufnr)
-            end,
-        })
-    end
+	if client.supports_method("textDocument/formatting") then
+		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			group = augroup,
+			buffer = bufnr,
+			callback = function()
+				lsp_formatting(bufnr)
+			end,
+		})
+	end
 end)
 
 lsp.setup()
