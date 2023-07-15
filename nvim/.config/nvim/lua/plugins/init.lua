@@ -5,14 +5,6 @@ return {
 	"github/copilot.vim",
 	"airblade/vim-gitgutter",
 
-	{
-		"ThePrimeagen/refactoring.nvim",
-		dependencies = {
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-treesitter/nvim-treesitter" },
-		},
-	},
-
 	-- TJ created lodash of neovim
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim",
@@ -74,11 +66,4 @@ return {
 
 	"nvim-treesitter/playground",
 	"romgrk/nvim-treesitter-context",
-
-	{
-		"jose-elias-alvarez/null-ls.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
-
-	"MunifTanjim/eslint.nvim",
 }
