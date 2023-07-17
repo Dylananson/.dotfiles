@@ -1,6 +1,4 @@
 local Remap = require("danson.keymap")
-local nnoremap = Remap.nnoremap
-local inoremap = Remap.inoremap
 local lsp = require("lsp-zero")
 
 lsp.preset("recommended")
@@ -62,7 +60,8 @@ lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 
 	vim.keymap.set("n", "gd", function()
-		vim.lsp.buf.definition()
+		-- vim.lsp.buf.definition()
+		require("telescope.builtin").lsp_definitions()
 	end, opts)
 	vim.keymap.set("n", "K", function()
 		vim.lsp.buf.hover()

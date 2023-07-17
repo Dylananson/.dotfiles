@@ -1,17 +1,34 @@
 return {
-	"wbthomason/packer.nvim",
-
 	--copilot
-	"github/copilot.vim",
+	{
+		"github/copilot.vim",
+		config = function()
+			vim.g.copilot_no_tab_map = true
+			vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+		end,
+	},
 	"airblade/vim-gitgutter",
 
 	-- TJ created lodash of neovim
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim",
 
-	"folke/tokyonight.nvim",
+	{
+		"folke/tokyonight.nvim",
+		opts = function()
+			require("tokyonight").setup({
+				style = "night",
+				transparent = "true",
+			})
 
-	"tpope/vim-fugitive",
+			vim.g.tokyonight_transparent_sidebar = true
+			vim.g.tokyonight_transparent = true
+			vim.opt.background = "dark"
+
+			vim.cmd([[colorscheme tokyonight]])
+		end,
+	},
+
 	"mbbill/undotree",
 	"ThePrimeagen/vim-be-good",
 
@@ -48,22 +65,6 @@ return {
 	"saadparwaiz1/cmp_luasnip",
 	"simrat39/symbols-outline.nvim",
 
-	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = { { "nvim-lua/plenary.nvim" } },
-	},
-
 	"pantharshit00/vim-prisma",
-
-	"numToStr/Comment.nvim",
-
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-	},
-
-	"JoosepAlviste/nvim-ts-context-commentstring",
-
 	"nvim-treesitter/playground",
-	"romgrk/nvim-treesitter-context",
 }
