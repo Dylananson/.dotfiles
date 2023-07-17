@@ -34,6 +34,7 @@ return {
 
 	{
 		"VonHeikemen/lsp-zero.nvim",
+		lazy = false,
 		dependencies = {
 			-- LSP Support
 			{ "neovim/nvim-lspconfig" },
@@ -56,8 +57,18 @@ return {
 			{ "<leader>fm", "<cmd>lua vim.lsp.buf.format()<CR>", desc = "Format" },
 		},
 		opts = function()
+			require("mason").setup()
+			require("mason-lspconfig").setup()
+
 			local lsp = require("lsp-zero")
 			vim.lsp.buf.format({ timeout_ms = 2000 })
+			lsp.extend_cmp()
+
+			require("lspconfig").tsserver.setup({
+				on_attach = function(client, bufnr)
+					lsp.default_keymaps({ buffer = bufnr })
+				end,
+			})
 
 			lsp.preset("recommended")
 
@@ -169,15 +180,39 @@ return {
 			lsp.setup()
 		end,
 	},
-    {
-     "folke/trouble.nvim",
-         dependencies = { "nvim-tree/nvim-web-devicons" },
-         opts = {
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          -- refer to the configuration section below
-         },
-     },
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+	},
+	{
+		"MunifTanjim/prettier.nvim",
+		opts = function()
+			local prettier = require("prettier")
+
+			prettier.setup({
+				bin = "prettier", -- or `'prettierd'` (v0.23.3+)
+				filetypes = {
+					"css",
+					"graphql",
+					"html",
+					"javascript",
+					"javascriptreact",
+					"json",
+					"less",
+					"markdown",
+					"scss",
+					"typescript",
+					"typescriptreact",
+					"yaml",
+				},
+			})
+		end,
+	},
 
 	"neovim/nvim-lspconfig", -- Configurations for Nvim LSP
 	"glepnir/lspsaga.nvim",
