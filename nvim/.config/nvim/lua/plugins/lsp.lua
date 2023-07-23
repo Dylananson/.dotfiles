@@ -80,11 +80,10 @@ return {
 				vim.keymap.set("n", "gr", vim.lsp.buf.references, key_opts)
 				vim.keymap.set("n", "[d", vim.diagnostic.goto_next, key_opts)
 				vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, key_opts)
-				vim.keymap.set("n", "<leader>df", vim.diagnostic.open_float, key_opts)
-				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, key_opts)
+				vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, key_opts)
+				vim.keymap.set("n", "<M-CR>", vim.lsp.buf.code_action, key_opts)
 				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, key_opts)
 				vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, key_opts)
-
 				if client.name ~= "null-ls" then
 					client.server_capabilities.documentFormattingProvider = false
 				end
