@@ -4,6 +4,10 @@ alias editor="nvim"
 alias vi="nvim"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 
+# echo 'export PYENV_ROOT="$HOME/.pyenv"' #>> ~/.zshrc
+# echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' #>> ~/.zshrc
+# echo 'eval "$(pyenv init -)"' #>> ~/.zshrc
+
 addToPath() {
     if [[ "$PATH" != *"$1"* ]]; then
         export PATH=$PATH:$1
@@ -37,4 +41,5 @@ bindkey -s ^f "tmux-sessionizer\n"
 
 addToPathFront $HOME/.local/scripts
 addToPathFront $HOME/.local/bin
-
+addToPathFront $HOME/apps/nvim-linux64/bin
+addToPathFront /usr/local/go/bin
