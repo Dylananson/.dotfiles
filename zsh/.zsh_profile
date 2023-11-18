@@ -38,6 +38,7 @@ export GIT_EDITOR=$VIM
 #bind -X '"\C-f": tmux-sessionizer\n'
 #
 bindkey -s ^f "tmux-sessionizer\n"
+bindkey -v
 
 addToPathFront $HOME/.local/scripts
 addToPathFront $HOME/.local/bin
