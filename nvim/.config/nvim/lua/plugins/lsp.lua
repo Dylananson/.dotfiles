@@ -89,7 +89,7 @@ return {
                 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, key_opts)
                 vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, key_opts)
                 vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, key_opts)
-                vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, key_opts)
+                vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, opts)
                 if client.name ~= "null-ls" then
                     client.server_capabilities.documentFormattingProvider = false
                 end
