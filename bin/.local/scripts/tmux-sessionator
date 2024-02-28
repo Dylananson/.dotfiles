@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
-
 if [[ $# -eq 1 ]]; then
-    selected=$1
+    selected="$1"
 else
-    selected=$(find ~/code/notes -mindepth 1 -maxdepth 1 -type d )
+    echo "Usage: $0 directory"
+    exit 1
 fi
 
-if [[ -z $selected ]]; then
-    exit 0
+if [[ ! -d "$selected" ]]; then
+    echo "Error: '$selected' is not a directory."
+    exit 1
 fi
 
-selected_name=$(basename "~/code/notes" | tr . _)
+selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
