@@ -22,7 +22,7 @@ return {
 								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
 								includeInlayFunctionParameterTypeHints = false,
 								includeInlayVariableTypeHints = false,
-								includeInlayPropertyDeclarationTypeHints = false,
+								-- includeInlayPropertyDeclarationTypeHints = false,
 								includeInlayFunctionLikeReturnTypeHints = true,
 								includeInlayEnumMemberValueHints = true,
 							},
@@ -57,6 +57,7 @@ return {
 			},
 		},
 		config = function(_, opts)
+			require("lspconfig").pyright.setup({})
 			require("mason").setup()
 			local mason_lspconfig = require("mason-lspconfig")
 			local lsp_config = require("lspconfig")
@@ -105,7 +106,7 @@ return {
 				vim.keymap.set("n", "<M-CR>", vim.lsp.buf.code_action, key_opts)
 				vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, key_opts)
 				vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, key_opts)
-				vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, key_opts)
+				-- vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, key_opts)
 				if client.name ~= "null-ls" then
 					client.server_capabilities.documentFormattingProvider = false
 				end
@@ -319,6 +320,7 @@ return {
 					null_ls.builtins.formatting.black,
 					null_ls.builtins.diagnostics.eslint_d,
 					null_ls.builtins.code_actions.eslint_d,
+					null_ls.builtins.formatting.gofmt,
 				},
 				on_attach = function(client, bufnr)
 					if client.name == "null-ls" and client.supports_method("textDocument/formatting") then
