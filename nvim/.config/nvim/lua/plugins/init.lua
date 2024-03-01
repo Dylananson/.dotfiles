@@ -7,9 +7,7 @@ return {
 			vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 		end,
 	},
-    {
-        "airblade/vim-gitgutter",
-    },
+	"tpope/vim-sleuth",
 	-- TJ created lodash of neovim
 	"nvim-lua/plenary.nvim",
 	"nvim-lua/popup.nvim",
