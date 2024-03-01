@@ -1,9 +1,12 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 vim.opt.termguicolors = true
 vim.opt.guicursor = ""
 
 vim.opt.nu = true
+
+vim.opt.showmode = false
 
 vim.opt.errorbells = false
 
@@ -18,6 +21,12 @@ vim.opt.expandtab = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.smartindent = true
+
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.wrap = false
