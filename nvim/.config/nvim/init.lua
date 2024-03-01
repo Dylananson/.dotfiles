@@ -1,10 +1,8 @@
 require("danson")
 if vim.g.vscode then
     -- VSCode extension
-    print("hello vscode")
 else
     -- ordinary Neovim
-    print("hello neovim")
 
     local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 

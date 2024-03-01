@@ -19,6 +19,7 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.smartindent = true
 
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
@@ -26,3 +27,6 @@ vim.opt.backup = false
 
 vim.opt.cmdheight = 1
 
+vim.netrw_keepdir = 0
+
+vim.opt.colorcolumn = "80"
