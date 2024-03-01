@@ -4,7 +4,6 @@ alias editor="nvim"
 alias vi="nvim"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 
-bindkey -v
 addToPath() {
     if [[ "$PATH" != *"$1"* ]]; then
         export PATH=$PATH:$1
@@ -32,12 +31,15 @@ export FZF_DEFAULT_COMMAND='find .'
 export DOTFILES=$HOME/.dotfiles
 export GIT_EDITOR=$VIM
 
-#bind -X '"\C-f": tmux-sessionizer\n'
-#
+bindkey -v
 bindkey -s ^f "tmux-sessionizer\n"
 bindkey -s ^n "tmux-sessionator ~/code/notes\n"
 bindkey -s ^D "tmux-sessionator ~/_dotfiles\n"
 
+
 addToPathFront $HOME/.local/scripts
 addToPathFront $HOME/.local/bin
+addToPathFront $HOME/apps/nvim-linux64/bin
+addToPathFront /usr/local/go/bin
+addToPathFront $HOME/bin
 
