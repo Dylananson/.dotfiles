@@ -39,3 +39,9 @@ vim.opt.cmdheight = 1
 vim.netrw_keepdir = 0
 
 vim.opt.colorcolumn = "80"
+
+-- Turns off netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrwSettings = 1
+vim.g.loaded_netrwFileHandlers = 1
