@@ -14,11 +14,11 @@ sudo apt-get install make
 - arandr (gui for screens)
 
 - fonts
-    `git clone https://github.com/powerline/fonts.git --depth=1`
-    cd fonts
-    ./install.sh
-    cd ..
-    rm -rf fonts
+```
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts && curl -fLO https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/DroidSansMono/DroidSansMNerdFont-Regular.otf
+```
+
 
 - lazygit (optional)
 - zsh  
