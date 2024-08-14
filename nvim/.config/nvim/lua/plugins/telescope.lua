@@ -19,7 +19,7 @@ return {
 	},
 	cmd = "Telescope",
 	keys = {
-		-- { "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Git files" },
+		{ "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Git files" },
 		--		{ "<leader>fe", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
 		--		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
 		--		{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
