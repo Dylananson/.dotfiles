@@ -14,6 +14,8 @@ return {
 		opts = {
 			---@type lspconfig.options
 			servers = {
+				acitonlint = {},
+				terraformls = {},
 				pyright = {
 					cmd = { "pyright-langserver", "--stdio" },
 					filetypes = { "python" },
@@ -66,17 +68,18 @@ return {
 						},
 					},
 				},
-				tailwindcss = {
-					settings = {
-						tailwindCSS = {
-							experimental = {
-								classRegex = {
-									{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-								},
-							},
-						},
-					},
-				},
+				-- tailwindcss = {
+				-- 	settings = {
+				-- 		tailwindCSS = {
+				-- 			experimental = {
+				-- 				classRegex = {
+				-- 					{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+				-- 				},
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
+				omnisharp = { },
 				clangd = {},
 				gopls = {
 					cmd = { "gopls" },
@@ -177,7 +180,15 @@ return {
 
 					vim.keymap.set("n", "gv", ":vsplit | lua vim.lsp.buf.definition()<CR>")
 					vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help)
-					vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format)
+					--
+					--vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format)
+
+
+
+					vim.cmd [[
+					  autocmd BufRead,BufNewFile *.tfvars set filetype=terraform
+					]]
+
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client and client.server_capabilities.documentHighlightProvider then
@@ -215,6 +226,7 @@ return {
 				"stylua", -- Used to format lua code
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
 			--
 			require("mason-lspconfig").setup({
 				handlers = {
@@ -250,12 +262,23 @@ return {
 	},
 	{ -- Autoformat
 		"stevearc/conform.nvim",
+		keys = {
+			{
+				-- Customize or remove this keymap to your liking
+				"<leader>fm",
+				function()
+					require("conform").format({ async = true, lsp_fallback = true })
+				end,
+				mode = "",
+				desc = "Format buffer",
+			},
+		},
 		opts = {
 			notify_on_error = false,
-			format_on_save = {
-				timeout_ms = 500,
-				lsp_fallback = true,
-			},
+			-- format_on_save = {
+			-- 	timeout_ms = 500,
+			-- 	lsp_fallback = true,
+			-- },
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
@@ -263,10 +286,33 @@ return {
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
+				javascript = { { "eslint_d", "prettierd", "prettier" } },
+				typescript = { { "eslint_d", "prettierd", "prettier" } },
 			},
 		},
+		config = function(_, opts)
+			local conform = require("conform")
+			local utils = require("conform.util")
+
+			local formatters = {
+				eslint_d = {
+					meta = {
+						url = "https://github.com/mantoni/eslint_d.js/",
+						description = "Like ESLint, but faster.",
+					},
+					command = require("conform.util").from_node_modules("eslint_d"),
+					args = { "--fix-to-stdout", "--stdin", "--stdin-filename", "$FILENAME" },
+					cwd = require("conform.util").root_file({
+						"package.json",
+						".eslintrc.json",
+						".prettierrc",
+					}),
+				},
+			}
+
+			local extended_opts = vim.tbl_deep_extend("force", opts, formatters)
+			conform.setup(extended_opts)
+		end,
 	},
 	{
 		"hrsh7th/nvim-cmp",
