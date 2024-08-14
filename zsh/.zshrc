@@ -105,6 +105,7 @@ source ~/.zsh_profile
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+<<<<<<< Updated upstream
 #export PATH
 #export PYENV_ROOT="$HOME/.pyenv"
 #command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
@@ -120,3 +121,32 @@ autoload -Uz compinit && compinit
 #export BUN_INSTALL="$HOME/.bun"
 #export PATH="$BUN_INSTALL/bin:$PATH"
 #export PYENV_ROOT="$HOME/.pyenv"
+=======
+export PATH
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
+
+# !! Contents within this block are managed by 'conda init' !!
+#__conda_setup="$('/home/dylan/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/home/dylan/miniconda3/etc/profile.d/conda.sh" ]; then
+# . "/home/dylan/miniconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
+#    else
+# export PATH="/home/dylan/miniconda3/bin:$PATH"  # commented out by conda initialize
+#    fi
+#fi
+#unset __conda_setup
+
+# bun completions
+# [ -s "/home/dtans/.bun/_bun" ] && source "/home/dtans/.bun/_bun"
+
+# bun
+# export BUN_INSTALL="$HOME/.bun"
+#export PATH="$BUN_INSTALL/bin:$PATH"
+#export PYENV_ROOT="$HOME/.pyenv"
+#command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init -)"
+>>>>>>> Stashed changes
