@@ -1,0 +1,82 @@
+" .ideavimrc is a configuration file for IdeaVim plugin. It uses
+"   the same commands as the original .vimrc configuration.
+" You can find a list of commands here: https://jb.gg/h38q75
+" Find more examples here: https://jb.gg/share-ideavimrc
+
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=5
+
+let mapleader=" "
+
+set NERDTree
+:map <leader>fm <Action>(ReformatCode)
+:map <leader>e <Action>(ErrorDescription)
+:map <leader>rn <Action>(RenameElement)
+:map <leader>ca <Action>(Refactorings.QuickListPopupAction)
+:map <leader>e <Action>(ShowErrorDescription)
+
+:map gd <Action>(GotoDeclaration)
+:map gI <Action>(GotoImplementation)
+:map gr <Action>(FindUsages)
+:map [d <Action>(ReSharperGotoPrevErrorInSolution)
+:map ]d <Action>(ReSharperGotoNextErrorInSolution)
+
+:map<leader>tr <Action>(RiderUnitTestRunContextAction)
+:map<leader>td <Action>(RiderUnitTestDebugContextAction)
+:map<leader>tso <Action>(ActivateUnitTestsToolWindow)
+
+:map<leader>se <Action>(SearchEverywhere)
+:map<leader>sf <Action>(GotoFile)
+:map<leader>sg <Action>(TextSearchAction)
+:map<leader>sw <Action>(GotoSymbol)
+:map<leader>sa <Action>(GotoAction)
+:map<leader><leader> <Action>(RecentFiles)
+:map<leader>sb <Action>(ShowBookmarks)
+:map<leader>db <Action>(ToggleLineBreakpoint)
+
+:map gi <Action>(GotoImplementation)
+:map - :NERDTree<CR>
+
+nmap <leader><C-j> :action GotoHarpoon1<cr>
+nmap <leader><C-k> :action GotoHarpoon2<cr>
+nmap <leader><C-l> :action GotoHarpoon3<cr>
+nmap <leader><C-;> :action GotoHarpoon4<cr>
+
+nmap <leader>l :action ShowHarpoon<cr>
+nmap <leader>a :action AddToHarpoon<cr>
+
+:map<leader>df <Action>(ToggleDistractionFreeMode)
+
+:map<leader>j <Action>(HideAllWindows)
+
+" Do incremental searching.
+:set incsearch
+
+:set relativenumber
+:set rnu
+:set number
+:set scroll=0
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+" --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
+
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+
+
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map \r to the Reformat Code action
+"map \r <Action>(ReformatCode)
+
+"" Map <leader>d to start debug
+"map <leader>d <Action>(Debug)
+
+"" Map \b to toggle the breakpoint on the current line
+"map \b <Action>(ToggleLineBreakpoint)
