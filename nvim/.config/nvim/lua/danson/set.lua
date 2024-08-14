@@ -28,7 +28,8 @@ vim.opt.smartcase = true
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undodir = vim.fn.stdpath("config") .. "/undo"
+
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
@@ -45,3 +46,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_netrwSettings = 1
 vim.g.loaded_netrwFileHandlers = 1
+
+vim.cmd [[
+  autocmd BufRead,BufNewFile *.tfvars set filetype=terraform
+]]
