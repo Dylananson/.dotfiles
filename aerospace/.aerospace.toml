@@ -68,6 +68,7 @@ alt-shift-l = 'move right'
 # alt-v = 'split vertical'
 
 alt-f = 'fullscreen'
+alt-shift-f = 'macos-native-fullscreen'
 
 # alt-s = 'layout v_accordion' # 'layout stacking' in i3
 # alt-w = 'layout h_accordion' # 'layout tabbed' in i3
@@ -135,3 +136,12 @@ alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
+
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'                       # Monitor sequence number from left to right. 1-based indexing
+2 = 'main'                       # Main monitor
+3 = 'main'                  # Non-main monitor in case when there are only two monitors
+4 = 'secondary'                   # Case insensitive regex substring
+5 = 'secondary'
+8 = 'secondary'
