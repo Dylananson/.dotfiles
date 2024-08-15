@@ -1,14 +1,40 @@
 # Reference: https://github.com/i3/i3/blob/next/etc/config
 
+# You can use it to add commands that run after login to macOS user session.
+# 'start-at-login' needs to be 'true' for 'after-login-command' to work
+# Available commands: https://nikitabobko.github.io/AeroSpace/commands
+after-login-command = []
+
+# You can use it to add commands that run after AeroSpace startup.
+# 'after-startup-command' is run after 'after-login-command'
+# Available commands : https://nikitabobko.github.io/AeroSpace/commands
+after-startup-command = []
+
+
+# Start AeroSpace at login
+start-at-login = true
+
+# Possible values: tiles|accordion
+default-root-container-layout = 'tiles'
+
+# Possible values: horizontal|vertical|auto
+# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
+#               tall monitor (anything higher than wide) gets vertical orientation
+default-root-container-orientation = 'auto'
+
+
+# Mouse follows focus when focused monitor changes
+# Drop it from your config, if you don't like this behavior
+# See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
+# See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
 # i3 doesn't have "normalizations" feature that why we disable them here.
 # But the feature is very helpful.
 # Normalizations eliminate all sorts of weird tree configurations that don't make sense.
 # Give normalizations a chance and enable them back.
-enable-normalization-flatten-containers = false
-enable-normalization-opposite-orientation-for-nested-containers = false
-
-# Mouse follows focus when focused monitor changes
-on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
 
 [gaps]
 inner.horizontal = 0
@@ -21,12 +47,16 @@ outer.right =      0
 [mode.main.binding]
 alt-shift-q = 'close'
 
-alt-enter = 'exec-and-forget open -n /System/Applications/Utilities/Terminal.app'
+alt-enter = 'exec-and-forget open -n /Applications/iTerm.app/'
 
 alt-j = 'focus down'
 alt-k = 'focus up'
 alt-h = 'focus left'
 alt-l = 'focus right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#resize
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
 
 alt-shift-j = 'move down'
 alt-shift-k = 'move up'
@@ -34,14 +64,18 @@ alt-shift-h = 'move left'
 alt-shift-l = 'move right'
 
 # Consider using 'join-with' command as a 'split' replacement if you want to enable normalizations
-alt-shift-h = 'split horizontal'
-alt-v = 'split vertical'
+# alt-ctrl-h = 'split horizontal'
+# alt-v = 'split vertical'
 
 alt-f = 'fullscreen'
 
-alt-s = 'layout v_accordion' # 'layout stacking' in i3
-alt-w = 'layout h_accordion' # 'layout tabbed' in i3
-alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
+# alt-s = 'layout v_accordion' # 'layout stacking' in i3
+# alt-w = 'layout h_accordion' # 'layout tabbed' in i3
+# alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
 
 alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
 
