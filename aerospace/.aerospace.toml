@@ -145,8 +145,6 @@ alt-shift-l = ['join-with right', 'mode main']
 2 = 'main'                       # Main monitor
 3 = 'main'                  # Non-main monitor in case when there are only two monitors
 4 = ['secondary', 'main']                   # Case insensitive regex substring
-5 = ['secondary', 'main']
-8 = ['secondary', 'main']
 
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.rider'

@@ -13,14 +13,138 @@ return {
 		---@class PluginLspOpts
 		opts = {
 			---@type lspconfig.options
-			servers = {
-				acitonlint = {},
+		},
+		config = function(_, opts)
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("LspAttach", { clear = true }),
+				callback = function(event)
+					local map = function(keys, func, desc)
+						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+					end
+
+					--Keymaps
+					-- Jump to the definition of the word under your cursor.
+					--  This is where a variable was first declared, or where a function is defined, etc.
+					--  To jump back, press <C-T>.
+					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+
+					-- Find references for the word under your cursor.
+					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+
+					-- Jump to the implementation of the word under your cursor.
+					--  Useful when your language has ways of declaring types without an actual implementation.
+					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+
+					-- vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
+
+					-- Jump to the type of the word under your cursor.
+					--  Useful when you're not sure what type a variable is and you want to see
+					--  the definition of its *type*, not where it was *defined*.
+					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+
+					-- Fuzzy find all the symbols in your current document.
+					--  Symbols are things like variables, functions, types, etc.
+					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+
+					-- Fuzzy find all the symbols in your current workspace
+					--  Similar to document symbols, except searches over your whole project.
+					--
+					map(
+						"<leader>ws",
+						require("telescope.builtin").lsp_dynamic_workspace_symbols,
+						"[W]orkspace [S]ymbols"
+					)
+
+					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+
+					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+					vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
+
+					map("K", vim.lsp.buf.hover, "Hover Documentation")
+
+					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+
+					vim.keymap.set("n", "gv", ":vsplit | lua vim.lsp.buf.definition()<CR>")
+					vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help)
+					--
+					--vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format)
+
+					vim.cmd([[
+					  autocmd BufRead,BufNewFile *.tfvars set filetype=terraform
+					]])
+
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client and client.server_capabilities.documentHighlightProvider then
+						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+							buffer = event.buf,
+							callback = vim.lsp.buf.document_highlight,
+						})
+
+						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+							buffer = event.buf,
+							callback = vim.lsp.buf.clear_references,
+						})
+					end
+				end,
+			})
+
+			-- LSP servers and clients are able to communicate to each other what features they support.
+			--  By default, Neovim doesn't support everything that is in the LSP Specification.
+			--  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
+			--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+			local util = require("lspconfig").util
+
+			local servers = {
 				terraformls = {},
+				csharp_ls = {},
+				-- omnisharp = {
+				-- 	root_dir = util.root_pattern("*.sln"),
+				-- 	settings = {
+				-- 		FormattingOptions = {
+				-- 			-- Enables support for reading code style, naming convention and analyzer
+				-- 			-- settings from .editorconfig.
+				-- 			EnableEditorConfigSupport = nil,
+				-- 			-- Specifies whether 'using' directives should be grouped and sorted during
+				-- 			-- document formatting.
+				-- 			OrganizeImports = nil,
+				-- 		},
+				-- 		MsBuild = {
+				-- 			-- If true, MSBuild project system will only load projects for files that
+				-- 			-- were opened in the editor. This setting is useful for big C# codebases
+				-- 			-- and allows for faster initialization of code navigation features only
+				-- 			-- for projects that are relevant to code that is being edited. With this
+				-- 			-- setting enabled OmniSharp may load fewer projects and may thus display
+				-- 			-- incomplete reference lists for symbols.
+				-- 			LoadProjectsOnDemand = nil,
+				-- 		},
+				-- 		RoslynExtensionsOptions = {
+				-- 			-- Enables support for roslyn analyzers, code fixes and rulesets.
+				-- 			EnableAnalyzersSupport = nil,
+				-- 			-- Enables support for showing unimported types and unimported extension
+				-- 			-- methods in completion lists. When committed, the appropriate using
+				-- 			-- directive will be added at the top of the current file. This option can
+				-- 			-- have a negative impact on initial completion responsiveness,
+				-- 			-- particularly for the first few completion sessions after opening a
+				-- 			-- solution.
+				-- 			EnableImportCompletion = true,
+				-- 			-- Only run analyzers against open files when 'enableRoslynAnalyzers' is
+				-- 			-- true
+				-- 			AnalyzeOpenDocumentsOnly = nil,
+				-- 		},
+				-- 		Sdk = {
+				-- 			-- Specifies whether to include preview versions of the .NET SDK when
+				-- 			-- determining which version to use for project loading.
+				-- 			IncludePrereleases = true,
+				-- 		},
+				-- 	},
+				-- },
 				pyright = {
 					cmd = { "pyright-langserver", "--stdio" },
 					filetypes = { "python" },
 					root_dir = function(fname)
-						local util = require("lspconfig/util")
 						local root_files = {
 							"pyproject.toml",
 							"setup.py",
@@ -79,7 +203,6 @@ return {
 				-- 		},
 				-- 	},
 				-- },
-				omnisharp = { },
 				clangd = {},
 				gopls = {
 					cmd = { "gopls" },
@@ -123,94 +246,7 @@ return {
 					},
 				},
 				marksman = {},
-			},
-		},
-		config = function(_, opts)
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("LspAttach", { clear = true }),
-				callback = function(event)
-					local map = function(keys, func, desc)
-						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-					end
-
-					--Keymaps
-					-- Jump to the definition of the word under your cursor.
-					--  This is where a variable was first declared, or where a function is defined, etc.
-					--  To jump back, press <C-T>.
-					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-
-					-- Find references for the word under your cursor.
-					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-
-					-- Jump to the implementation of the word under your cursor.
-					--  Useful when your language has ways of declaring types without an actual implementation.
-					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-
-					-- vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
-
-					-- Jump to the type of the word under your cursor.
-					--  Useful when you're not sure what type a variable is and you want to see
-					--  the definition of its *type*, not where it was *defined*.
-					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-
-					-- Fuzzy find all the symbols in your current document.
-					--  Symbols are things like variables, functions, types, etc.
-					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-
-					-- Fuzzy find all the symbols in your current workspace
-					--  Similar to document symbols, except searches over your whole project.
-					--
-					map(
-						"<leader>ws",
-						require("telescope.builtin").lsp_dynamic_workspace_symbols,
-						"[W]orkspace [S]ymbols"
-					)
-
-					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-
-					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-					vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
-
-					map("K", vim.lsp.buf.hover, "Hover Documentation")
-
-					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-					--	map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-					--	map("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
-
-					vim.keymap.set("n", "gv", ":vsplit | lua vim.lsp.buf.definition()<CR>")
-					vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help)
-					--
-					--vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format)
-
-
-
-					vim.cmd [[
-					  autocmd BufRead,BufNewFile *.tfvars set filetype=terraform
-					]]
-
-
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if client and client.server_capabilities.documentHighlightProvider then
-						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-							buffer = event.buf,
-							callback = vim.lsp.buf.document_highlight,
-						})
-
-						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-							buffer = event.buf,
-							callback = vim.lsp.buf.clear_references,
-						})
-					end
-				end,
-			})
-
-			-- LSP servers and clients are able to communicate to each other what features they support.
-			--  By default, Neovim doesn't support everything that is in the LSP Specification.
-			--  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-			--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+			}
 
 			-- -- Ensure the servers and tools above are installed
 			-- --  To check the current status of installed tools and/or manually install
@@ -219,9 +255,10 @@ return {
 			-- --
 			-- --  You can press `g?` for help in this menu
 			require("mason").setup()
+
 			--
 			-- -- for you, so that they are available from within Neovim.
-			local ensure_installed = vim.tbl_keys(opts.servers or {})
+			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format lua code
 			})
@@ -231,7 +268,7 @@ return {
 			require("mason-lspconfig").setup({
 				handlers = {
 					function(server_name)
-						local server = opts.servers[server_name] or {}
+						local server = servers[server_name] or {}
 						-- This handles overriding only values explicitly passed
 						-- by the server configuration above. Useful when disabling
 						-- certain features of an LSP (for example, turning off formatting for tsserver)
@@ -240,6 +277,7 @@ return {
 					end,
 				},
 			})
+
 			--
 			vim.diagnostic.config({
 				underline = true,
@@ -275,10 +313,10 @@ return {
 		},
 		opts = {
 			notify_on_error = false,
-			-- format_on_save = {
-			-- 	timeout_ms = 500,
-			-- 	lsp_fallback = true,
-			-- },
+			format_on_save = {
+				timeout_ms = 500,
+				lsp_fallback = true,
+			},
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
@@ -286,8 +324,8 @@ return {
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { { "eslint_d", "prettierd", "prettier" } },
-				typescript = { { "eslint_d", "prettierd", "prettier" } },
+				javascript = { { "eslint_d", "eslint", "prettierd", "prettier" } },
+				typescript = { { "eslint_d", "esling", "prettierd", "prettier" } },
 			},
 		},
 		config = function(_, opts)
