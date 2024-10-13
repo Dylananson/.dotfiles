@@ -49,12 +49,13 @@ addToPathFront $HOME/bin
 addToPathFront $HOME/apps/zen-specific.AppImage
 addToPathFront $GOPATH/bin
 addToPathFront $HOME/.dotnet
+addToPathFront $HOME/.dotnet/tools
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-export DOTNET_ROOT=$HOME/dotnet
-export PATH=$PATH:$HOME/dotnet
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$HOME/.dotnet
 
 export GPR_TOKEN="$(cat ~/.gprToken)"
 
