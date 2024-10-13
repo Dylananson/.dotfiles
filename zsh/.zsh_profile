@@ -30,6 +30,7 @@ export EDITOR="nvim"
 export FZF_DEFAULT_COMMAND='find .'
 export DOTFILES=$HOME/.dotfiles
 export GIT_EDITOR=$VIM
+export GOPATH=$HOME/gopath
 
 bindkey -v
 bindkey -s ^f "tmux-sessionizer\n"
@@ -42,4 +43,7 @@ addToPathFront $HOME/.local/bin
 addToPathFront $HOME/apps/nvim-linux64/bin
 addToPathFront /usr/local/go/bin
 addToPathFront $HOME/bin
+addToPathFront $HOME/apps/zen-specific.AppImage
+addToPathFront $GOPATH/bin
+
 

@@ -78,7 +78,19 @@ return {
 					},
 				},
 				clangd = {},
-				gopls = {},
+				gopls = {
+					cmd = { "gopls" },
+					filetypes = { "go", "gomod", "gowork", "gotmpl" },
+					settings = {
+						gopls = {
+							completeUnimported = true,
+							usePlaceholders = true,
+							analyses = {
+								unusedparams = true,
+							},
+						},
+					},
+				},
 				-- rust_analyzer = {},
 				lua_ls = {
 					-- cmd = {...},
