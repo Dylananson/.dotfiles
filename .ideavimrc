@@ -9,6 +9,9 @@
 " text scroll if you mouse-click near the start or end of the window.
 set scrolloff=5
 
+set visualbell
+set noerrorbells
+
 let mapleader=" "
 
 set NERDTree
@@ -20,13 +23,14 @@ set NERDTree
 
 :map gd <Action>(GotoDeclaration)
 :map gI <Action>(GotoImplementation)
-:map gr <Action>(FindUsages)
+:map gi <Action>(GotoImplementation)
+:map gr <Action>(ShowUsages)
 :map [d <Action>(ReSharperGotoPrevErrorInSolution)
 :map ]d <Action>(ReSharperGotoNextErrorInSolution)
 
 :map<leader>tr <Action>(RiderUnitTestRunContextAction)
 :map<leader>td <Action>(RiderUnitTestDebugContextAction)
-:map<leader>tso <Action>(ActivateUnitTestsToolWindow)
+:map<leader>ts <Action>(ActivateTestsToolWindow)
 
 :map<leader>se <Action>(SearchEverywhere)
 :map<leader>sf <Action>(GotoFile)
@@ -37,7 +41,6 @@ set NERDTree
 :map<leader>sb <Action>(ShowBookmarks)
 :map<leader>db <Action>(ToggleLineBreakpoint)
 
-:map gi <Action>(GotoImplementation)
 :map - :NERDTree<CR>
 
 nmap <leader><C-j> :action GotoHarpoon1<cr>
