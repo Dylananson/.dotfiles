@@ -23,9 +23,14 @@ return {
 			require("tokyonight").setup({
 				style = "night",
 				transparent = "true",
+				on_highlights = function(hl, c)
+					hl.LineNr = { fg = "#a7bed5" }
+					hl.LineNrAbove = { fg = "#608ab2" }
+					hl.LineNrBelow = { fg = "#608ab2" }
+				end,
 			})
 
-			vim.g.tokyonight_transparent_sidebar = true
+			-- vim.g.tokyonight_transparent_sidebar = true
 			vim.g.tokyonight_transparent = true
 			vim.opt.background = "dark"
 			--
@@ -44,8 +49,6 @@ return {
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
 			auto_preview = false,
-
-
 		},
 		keys = {
 			{
