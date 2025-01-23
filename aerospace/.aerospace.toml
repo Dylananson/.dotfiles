@@ -144,7 +144,7 @@ alt-shift-l = ['join-with right', 'mode main']
 1 = 'main'                       # Monitor sequence number from left to right. 1-based indexing
 2 = 'main'                       # Main monitor
 3 = 'main'                  # Non-main monitor in case when there are only two monitors
-4 = ['secondary', 'main']                   # Case insensitive regex substring
+# 4 = ['secondary', 'main']                   # Case insensitive regex substring
 
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.rider'
@@ -158,9 +158,9 @@ run = "move-node-to-workspace 5"
 if.app-id = 'company.thebrowser.Browser'
 run = "move-node-to-workspace 1"
 
-[[on-window-detected]]
-if.app-id = 'com.tinyspeck.slackmacgap'
-run = "move-node-to-workspace 4"
+# [[on-window-detected]]
+# if.app-id = 'com.tinyspeck.slackmacgap'
+# run = "move-node-to-workspace 4"
 
 [[on-window-detected]]
 if.app-id = 'com.Microsoft.outlook'
