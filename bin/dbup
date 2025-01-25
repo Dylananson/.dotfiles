@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+run_number=1 GPR_USERNAME=dylan.anson GPR_TOKEN=$GPR_TOKEN docker-compose -f docker-compose.backend.yml up db
+
+

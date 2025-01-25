@@ -13,114 +13,6 @@ return {
 		---@class PluginLspOpts
 		opts = {
 			---@type lspconfig.options
-			servers = {
-				pyright = {
-					cmd = { "pyright-langserver", "--stdio" },
-					filetypes = { "python" },
-					root_dir = function(fname)
-						local util = require("lspconfig/util")
-						local root_files = {
-							"pyproject.toml",
-							"setup.py",
-							"setup.cfg",
-							"requirements.txt",
-							"Pipfile",
-							"pyrightconfig.json",
-						}
-						return util.root_pattern(unpack(root_files))(fname)
-							or util.find_git_ancestor(fname)
-							or util.path.dirname(fname)
-					end,
-					settings = {
-						python = {
-							analysis = {
-								autoSearchPaths = true,
-								diagnosticMode = "workspace",
-							},
-						},
-					},
-				},
-				tsserver = {
-					settings = {
-						typescript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "literal",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = false,
-								includeInlayVariableTypeHints = false,
-								includeInlayPropertyDeclarationTypeHints = false,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
-							},
-						},
-						javascript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "all",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = true,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
-							},
-						},
-					},
-				},
-				tailwindcss = {
-					settings = {
-						tailwindCSS = {
-							experimental = {
-								classRegex = {
-									{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-								},
-							},
-						},
-					},
-				},
-				clangd = {},
-				gopls = {
-					cmd = { "gopls" },
-					filetypes = { "go", "gomod", "gowork", "gotmpl" },
-					settings = {
-						gopls = {
-							completeUnimported = true,
-							usePlaceholders = true,
-							analyses = {
-								unusedparams = true,
-							},
-						},
-					},
-				},
-				-- rust_analyzer = {},
-				lua_ls = {
-					-- cmd = {...},
-					-- filetypes { ...},
-					-- capabilities = {},
-					settings = {
-						Lua = {
-							runtime = { version = "LuaJIT" },
-							workspace = {
-								checkThirdParty = false,
-								-- Tells lua_ls where to find all the Lua files that you have loaded
-								-- for your neovim configuration.
-								library = {
-									"${3rd}/luv/library",
-									unpack(vim.api.nvim_get_runtime_file("", true)),
-								},
-								-- If lua_ls is really slow on your computer, you can try this instead:
-								-- library = { vim.env.VIMRUNTIME },
-							},
-							completion = {
-								callSnippet = "Replace",
-							},
-							-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-							-- diagnostics = { disable = { 'missing-fields' } },
-							diagnostics = { globals = { "vim" } },
-						},
-					},
-				},
-				marksman = {},
-			},
 		},
 		config = function(_, opts)
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -172,12 +64,14 @@ return {
 
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
-					--	map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-					--	map("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
-
 					vim.keymap.set("n", "gv", ":vsplit | lua vim.lsp.buf.definition()<CR>")
 					vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help)
-					vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format)
+					--
+					--vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format)
+
+					vim.cmd([[
+					  autocmd BufRead,BufNewFile *.tfvars set filetype=terraform
+					]])
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client and client.server_capabilities.documentHighlightProvider then
@@ -201,6 +95,163 @@ return {
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
+			local util = require("lspconfig").util
+
+			local servers = {
+				ltex = {
+					language = "en-GB",
+				},
+				terraformls = {},
+				-- csharp_ls = {},
+				omnisharp = {
+					root_dir = util.root_pattern("*.sln"),
+					filetypes = { "cs", "vb" },
+					settings = {
+						FormattingOptions = {
+							-- Enables support for reading code style, naming convention and analyzer
+							-- settings from .editorconfig.
+							EnableEditorConfigSupport = true,
+							-- Specifies whether 'using' directives should be grouped and sorted during
+							-- document formatting.
+							OrganizeImports = nil,
+						},
+						MsBuild = {
+							-- If true, MSBuild project system will only load projects for files that
+							-- were opened in the editor. This setting is useful for big C# codebases
+							-- and allows for faster initialization of code navigation features only
+							-- for projects that are relevant to code that is being edited. With this
+							-- setting enabled OmniSharp may load fewer projects and may thus display
+							-- incomplete reference lists for symbols.
+							LoadProjectsOnDemand = nil,
+						},
+						RoslynExtensionsOptions = {
+							-- Enables support for roslyn analyzers, code fixes and rulesets.
+							EnableAnalyzersSupport = true,
+							-- Enables support for showing unimported types and unimported extension
+							-- methods in completion lists. When committed, the appropriate using
+							-- directive will be added at the top of the current file. This option can
+							-- have a negative impact on initial completion responsiveness,
+							-- particularly for the first few completion sessions after opening a
+							-- solution.
+							EnableImportCompletion = true,
+							-- Only run analyzers against open files when 'enableRoslynAnalyzers' is
+							-- true
+							AnalyzeOpenDocumentsOnly = nil,
+						},
+						Sdk = {
+							-- Specifies whether to include preview versions of the .NET SDK when
+							-- determining which version to use for project loading.
+							IncludePrereleases = true,
+						},
+					},
+				},
+				pyright = {
+					cmd = { "pyright-langserver", "--stdio" },
+					filetypes = { "python" },
+					root_dir = function(fname)
+						local root_files = {
+							"pyproject.toml",
+							"setup.py",
+							"setup.cfg",
+							"requirements.txt",
+							"Pipfile",
+							"pyrightconfig.json",
+						}
+						return util.root_pattern(unpack(root_files))(fname)
+							or util.find_git_ancestor(fname)
+							or util.path.dirname(fname)
+					end,
+					settings = {
+						python = {
+							analysis = {
+								autoSearchPaths = true,
+								diagnosticMode = "workspace",
+							},
+						},
+					},
+				},
+				tsserver = {
+					settings = {
+						typescript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "literal",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = false,
+								includeInlayVariableTypeHints = false,
+								includeInlayPropertyDeclarationTypeHints = false,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+						javascript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+					},
+				},
+				-- tailwindcss = {
+				-- 	settings = {
+				-- 		tailwindCSS = {
+				-- 			experimental = {
+				-- 				classRegex = {
+				-- 					{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+				-- 				},
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
+				clangd = {},
+				-- gopls = {
+				-- 	cmd = { "gopls" },
+				-- 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				-- 	settings = {
+				-- 		gopls = {
+				-- 			completeUnimported = true,
+				-- 			usePlaceholders = true,
+				-- 			analyses = {
+				-- 				unusedparams = true,
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
+				-- rust_analyzer = {},
+				lua_ls = {
+					-- cmd = {...},
+					-- filetypes { ...},
+					-- capabilities = {},
+					settings = {
+						Lua = {
+							runtime = { version = "LuaJIT" },
+							workspace = {
+								checkThirdParty = false,
+								-- Tells lua_ls where to find all the Lua files that you have loaded
+								-- for your neovim configuration.
+								library = {
+									"${3rd}/luv/library",
+									unpack(vim.api.nvim_get_runtime_file("", true)),
+								},
+								-- If lua_ls is really slow on your computer, you can try this instead:
+								-- library = { vim.env.VIMRUNTIME },
+							},
+							completion = {
+								callSnippet = "Replace",
+							},
+							-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+							-- diagnostics = { disable = { 'missing-fields' } },
+							diagnostics = { globals = { "vim" } },
+						},
+					},
+				},
+				marksman = {},
+			}
+
 			-- -- Ensure the servers and tools above are installed
 			-- --  To check the current status of installed tools and/or manually install
 			-- --  other tools, you can run
@@ -208,18 +259,20 @@ return {
 			-- --
 			-- --  You can press `g?` for help in this menu
 			require("mason").setup()
+
 			--
 			-- -- for you, so that they are available from within Neovim.
-			local ensure_installed = vim.tbl_keys(opts.servers or {})
+			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format lua code
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
 			--
 			require("mason-lspconfig").setup({
 				handlers = {
 					function(server_name)
-						local server = opts.servers[server_name] or {}
+						local server = servers[server_name] or {}
 						-- This handles overriding only values explicitly passed
 						-- by the server configuration above. Useful when disabling
 						-- certain features of an LSP (for example, turning off formatting for tsserver)
@@ -228,6 +281,7 @@ return {
 					end,
 				},
 			})
+
 			--
 			vim.diagnostic.config({
 				underline = true,
@@ -250,12 +304,23 @@ return {
 	},
 	{ -- Autoformat
 		"stevearc/conform.nvim",
+		keys = {
+			{
+				-- Customize or remove this keymap to your liking
+				"<leader>fm",
+				function()
+					require("conform").format({ async = true, lsp_fallback = true })
+				end,
+				mode = "",
+				desc = "Format buffer",
+			},
+		},
 		opts = {
 			notify_on_error = false,
-			format_on_save = {
-				timeout_ms = 500,
-				lsp_fallback = true,
-			},
+			-- format_on_save = false {
+			-- 	timeout_ms = 500,
+			-- 	lsp_fallback = true,
+			-- },
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
@@ -263,10 +328,35 @@ return {
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
+				javascript = { { "eslint_d", "eslint", "prettierd", "prettier" } },
+				typescript = { { "eslint_d", "eslint", "prettierd", "prettier" } },
+				javascriptreact = { { "eslint_d", "eslint", "prettierd", "prettier" } },
+				typescriptreact = { { "eslint_d", "eslint", "prettierd", "prettier" } },
 			},
 		},
+		config = function(_, opts)
+			local conform = require("conform")
+			local utils = require("conform.util")
+
+			local formatters = {
+				eslint_d = {
+					meta = {
+						url = "https://github.com/mantoni/eslint_d.js/",
+						description = "Like ESLint, but faster.",
+					},
+					command = require("conform.util").from_node_modules("eslint_d"),
+					args = { "--fix-to-stdout", "--stdin", "--stdin-filename", "$FILENAME" },
+					cwd = require("conform.util").root_file({
+						"package.json",
+						".eslintrc.json",
+						".prettierrc",
+					}),
+				},
+			}
+
+			local extended_opts = vim.tbl_deep_extend("force", opts, formatters)
+			conform.setup(extended_opts)
+		end,
 	},
 	{
 		"hrsh7th/nvim-cmp",

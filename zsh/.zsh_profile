@@ -1,8 +1,8 @@
 VIM="nvim"
 alias vim="nvim"
 alias editor="nvim"
-alias vi="nvim"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+TERM=xterm
 
 addToPath() {
     if [[ "$PATH" != *"$1"* ]]; then
@@ -41,9 +41,24 @@ bindkey -s ^D "tmux-sessionator ~/_dotfiles\n"
 addToPathFront $HOME/.local/scripts
 addToPathFront $HOME/.local/bin
 addToPathFront $HOME/apps/nvim-linux64/bin
+addToPathFront $HOME/programs/nvim-macos-arm64/bin
+addToPathFront $HOME/programs/homebrew/bin
 addToPathFront /usr/local/go/bin
 addToPathFront $HOME/bin
+addToPathFront $HOME/.dotfiles/bin
+
 addToPathFront $HOME/apps/zen-specific.AppImage
 addToPathFront $GOPATH/bin
+addToPathFront $HOME/.dotnet
+addToPathFront $HOME/.dotnet/tools
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$HOME/.dotnet
+
+export GPR_TOKEN="$(cat ~/.gprToken)"
+export TERM=xterm-256color
 
 
