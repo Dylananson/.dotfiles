@@ -6,3 +6,5 @@ font-size = 20
 
 window-colorspace=display-p3
 window-theme=dark
+
+window-decoration = false
