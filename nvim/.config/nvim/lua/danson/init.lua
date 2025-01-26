@@ -1,6 +1,5 @@
 require("danson.set")
 require("danson.remap")
-require("danson.autocmds")
 
 vim.api.nvim_create_augroup("diag", { clear = true })
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
