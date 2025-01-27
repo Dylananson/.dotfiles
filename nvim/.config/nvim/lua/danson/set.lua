@@ -50,3 +50,11 @@ vim.g.loaded_netrwFileHandlers = 1
 vim.cmd [[
   autocmd BufRead,BufNewFile *.tfvars set filetype=terraform
 ]]
+
+
+vim.api.nvim_create_augroup("FileTypeSettings", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  group = "FileTypeSettings",
+  pattern = { "javascript", "typescript", "typescriptreact", "jsx", "tsx" },
+  command = "setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab",
+})
