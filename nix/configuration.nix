@@ -124,7 +124,7 @@ programs.steam = {
     git
     tmux
     fzf
-    ghostty
+    ghostty   # ghostty
     libgcc
     gcc
     zig

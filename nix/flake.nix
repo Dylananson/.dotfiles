@@ -2,7 +2,7 @@
   description =  "My Flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-24.05";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
   };
 
   outputs = {self, nixpkgs, ...}: 
@@ -12,7 +12,7 @@
     nixosConfigurations = {
       nixos = lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ "./configuration.nix" ];
+        modules = [ "/home/dtans/.dotfiles/nix/configuration.nix" ];
      };
     };
   };
