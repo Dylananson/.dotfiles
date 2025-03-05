@@ -328,10 +328,10 @@ return {
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = {  "eslint_d", "eslint", "prettierd", "prettier" } ,
-				typescript = {  "eslint_d", "eslint", "prettierd", "prettier" } ,
-				javascriptreact = {  "eslint_d", "eslint", "prettierd", "prettier" } ,
-				typescriptreact = {  "eslint_d", "eslint", "prettierd", "prettier" } ,
+				javascript = {  "eslint_d", "eslint", "prettierd", "prettier" ,stop_after_first = true} ,
+				typescript = {  "eslint_d", "eslint", "prettierd", "prettier" ,stop_after_first = true} ,
+				javascriptreact = {  "eslint_d", "eslint", "prettierd", "prettier",stop_after_first = true  },
+				typescriptreact = {  "eslint_d", "eslint", "prettierd", "prettier",stop_after_first = true  },
 			},
 		},
 		config = function(_, opts)

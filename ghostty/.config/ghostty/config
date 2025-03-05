@@ -1,8 +1,8 @@
 theme = tokyonight_night
 
-background-opacity = .4
+background-opacity = .5
 
-font-size = 14
+font-size = 15
 
 window-colorspace=display-p3
 window-theme=dark

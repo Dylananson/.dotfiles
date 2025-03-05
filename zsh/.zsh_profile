@@ -59,6 +59,9 @@ export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$HOME/.dotnet
 
 export GPR_TOKEN="$(cat ~/.gprToken)"
+export GPR_USERNAME=dylan-anson
 export TERM=xterm-256color
+export ASPNETCORE_ENVIRONMENT=Development
+export DOTNET_ENVIRONMENT=Development
 
 

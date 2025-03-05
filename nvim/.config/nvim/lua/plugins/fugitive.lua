@@ -20,6 +20,6 @@ return {
 		-- NOTE: It allows me to easily set the branch i am pushing and any tracking
 		-- needed if i did not set the branch up correctly
 
-		vim.keymap.set("n", "<leader>gt", ":Git push -u origin", { remap = false, desc = "[G]it [T]rack and push" })
+		vim.keymap.set("n", "<leader>gt", ":Git push -u origin --set-upstream", { remap = false, desc = "[G]it [T]rack and push" })
 	end,
 }
