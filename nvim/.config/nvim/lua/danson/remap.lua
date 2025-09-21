@@ -18,6 +18,10 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagn
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
+
+vim.keymap.set({"n","v","x"}, "<leader>y", "\"*y")
+vim.keymap.set({"n","v","x"}, "<leader>d", "\"*d")
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
@@ -25,3 +29,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank()
 	end,
 })
+
+
+--local terminal = require("config.util")
+-- Key mappings
+--vim.keymap.set("n", "<leader>t", terminal.FloatingTerminal, { noremap = true, silent = true, desc = "Toggle floating terminal" })
+--vim.keymap.set("t", "<Esc>", function()
+ -- if terminal.terminal_state.is_open then
+  --  vim.api.nvim_win_close(terminal.terminal_state.win, false)
+   -- terminal.terminal_state.is_open = false
+  --end
+--end, { noremap = true, silent = true, desc = "Close floating terminal from terminal mode" })
+--
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+
+
+
+
