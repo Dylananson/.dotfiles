@@ -114,3 +114,9 @@ export NVM_DIR="$HOME/.nvm"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:/bin"
+
+# opencode
+export PATH=/home/dtans/.opencode/bin:$PATH
+
+# bun completions
+[ -s "/home/dtans/.bun/_bun" ] && source "/home/dtans/.bun/_bun"

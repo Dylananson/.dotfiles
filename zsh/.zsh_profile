@@ -62,3 +62,15 @@ export GPR_TOKEN="$(cat ~/.gprToken)"
 export TERM=xterm-256color
 
 
+export ANDROID_HOME=$HOME/Android/Sdk
+
+# Default Java for Android/Gradle compatibility
+if [ -d "/usr/lib/jvm/java-17-openjdk" ]; then
+    export JAVA_HOME="/usr/lib/jvm/java-17-openjdk"
+elif [ -d "/usr/lib/jvm/java-17-openjdk-amd64" ]; then
+    export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+fi
+
+if [ -n "$JAVA_HOME" ]; then
+    addToPathFront "$JAVA_HOME/bin"
+fi

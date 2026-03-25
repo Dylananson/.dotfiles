@@ -19,8 +19,8 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagn
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 
-vim.keymap.set({"n","v","x"}, "<leader>y", "\"*y")
-vim.keymap.set({"n","v","x"}, "<leader>d", "\"*d")
+vim.keymap.set({"n","v","x"}, "<leader>y", "\"+y")
+vim.keymap.set({"n","v","x"}, "<leader>d", "\"+d")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
@@ -44,5 +44,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
 
 
+-- -- Jump to the next item in the quickfix list
+-- vim.api.nvim_set_keymap('n', '<C-n>', ':cnext<CR>', { noremap = true, silent = true, desc = 'Next quickfix item' })
+--
+-- -- Jump to the previous item in the quickfix list
+-- vim.api.nvim_set_keymap('n', '<C-p>', ':cprevious<CR>', { noremap = true, silent = true, desc = 'Previous quickfix item' })
+
+vim.keymap.set("n", "<C-j>", "<Cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-k>", "<Cmd>cprev<CR>zz")
 
 
