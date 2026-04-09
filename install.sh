@@ -3,6 +3,71 @@ set -e
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+backup_conflict() {
+    local target_path="$1"
+    local backup_path
+    local backup_index=1
+
+    if [ ! -e "$target_path" ] && [ ! -L "$target_path" ]; then
+        return
+    fi
+
+    backup_path="${target_path}.old"
+    while [ -e "$backup_path" ] || [ -L "$backup_path" ]; do
+        backup_path="${target_path}.old.${backup_index}"
+        backup_index=$((backup_index + 1))
+    done
+
+    mv -- "$target_path" "$backup_path"
+    echo "Backed up: $target_path -> $backup_path"
+}
+
+OMARCHY_CONFLICT_PATHS=(
+    ".config/ghostty"
+    ".config/waybar"
+    ".config/walker"
+    ".config/mako"
+    ".config/alacritty"
+    ".config/kitty"
+)
+
+would_conflict_with_omarchy() {
+    local target_rel="$1"
+    local omarchy_path
+
+    for omarchy_path in "${OMARCHY_CONFLICT_PATHS[@]}"; do
+        if [ "$target_rel" = "$omarchy_path" ] || [[ "$target_rel" == "$omarchy_path"/* ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+backup_stow_conflicts() {
+    local package_dir source_path target_rel target_path
+    local -A backed_up=()
+
+    for package_dir in "$DOTFILES_DIR"/*/; do
+        [ -d "$package_dir" ] || continue
+
+        while IFS= read -r -d '' source_path; do
+            target_rel="${source_path#"$package_dir"}"
+            target_path="$HOME/$target_rel"
+
+            if ! would_conflict_with_omarchy "$target_rel"; then
+                continue
+            fi
+
+            if [ -e "$target_path" ] || [ -L "$target_path" ]; then
+                if [ -z "${backed_up["$target_path"]}" ]; then
+                    backup_conflict "$target_path"
+                    backed_up["$target_path"]=1
+                fi
+            fi
+        done < <(find "$package_dir" -mindepth 1 -print0)
+    done
+}
+
 # 1. Install required packages
 PACKAGES=(
     zsh
@@ -41,23 +106,9 @@ if [ -n "$ZSHRC_BACKUP" ]; then
     rm "$ZSHRC_BACKUP"
 fi
 
-# 4. Backup existing system configs (rename with .old)
-# BACKUPS=(
-#     "$HOME/.tmux.conf"
-#     "$HOME/.zshrc"
-#     "$HOME/.zsh_profile"
-#     "$HOME/.bashrc"
-#     "$HOME/.config/nvim"
-#     "$HOME/.config/ghostty/config"
-# )
-#
-# for file in "${BACKUPS[@]}"; do
-#     if [ -e "$file" ]; then
-#         mv "$file" "${file}.old"
-#         echo "Backed up: $file → ${file}.old"
-#     fi
-# done
-#
+# 4. Backup anything that would conflict with stow.
+backup_stow_conflicts
+
 # 5. Link dotfiles via stow
 cd "$DOTFILES_DIR"
 stow --verbose --target="$HOME" --restow */
