@@ -6,6 +6,11 @@ sudo apt-get install make
 - make sure to delete the conflict config files before running make
 - run `make`
 
+## WireGuard
+- WireGuard docs live in `wireguard/.config/wireguard/README.md`
+- Final setup uses `/etc/wireguard/wg0.conf` with `wg-quick@wg0`
+- After stowing, the docs are also available at `~/.config/wireguard/README.md`
+
 
 ## This doesn't install anything so we would need to install 
 - feh (this is for setting backgrounds)

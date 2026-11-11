@@ -52,6 +52,10 @@ addToPathFront $GOPATH/bin
 addToPathFront $HOME/.dotnet
 addToPathFront $HOME/.dotnet/tools
 
+addToPathFront $HOME/Android/Sdk/platform-tools/abd
+addToPathFront $HOME/Android/Sdk/platform-tools
+
+
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
@@ -74,3 +78,8 @@ fi
 if [ -n "$JAVA_HOME" ]; then
     addToPathFront "$JAVA_HOME/bin"
 fi
+
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+export ANDROID_HOME="$ANDROID_SDK_ROOT"
+export PATH="$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+

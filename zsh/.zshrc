@@ -120,3 +120,7 @@ export PATH=/home/dtans/.opencode/bin:$PATH
 
 # bun completions
 [ -s "/home/dtans/.bun/_bun" ] && source "/home/dtans/.bun/_bun"
+
+eval "$(mise activate zsh)"
+
+. "$HOME/.local/share/../bin/env"
